@@ -1,5 +1,5 @@
 /// <reference path="../init.js" />
-/// <reference path="../services/dummyDataProvider.js" />
+/// <reference path="../services/dataStash.js" />
 
 (function(app){
 
@@ -8,9 +8,19 @@
 
     // controllers
     app.controllers.round = function(){
-        var dp = new app.services.dummyDataProvider();
-        var data = dp.getRound();
-        return data;
+
+        return {
+
+            round: app.services.dataStash.get('round'),
+
+            eventHandlers: {
+
+                updateHandicap: function(player, handicap){
+                    player.updateHandicap(handicap);
+                }
+
+            }
+        };
     }
     
 })(__ || {});

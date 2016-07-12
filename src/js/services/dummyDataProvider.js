@@ -35,7 +35,7 @@
             new app.models.holeScore(allHoles[0], allPlayers[1], 4),
             new app.models.holeScore(allHoles[0], allPlayers[2], 6),
             new app.models.holeScore(allHoles[1], allPlayers[0], 3),
-            new app.models.holeScore(allHoles[1], allPlayers[1], 3),
+            new app.models.holeScore(allHoles[1], allPlayers[1], 7),
             new app.models.holeScore(allHoles[1], allPlayers[2], 4)
         ]
 

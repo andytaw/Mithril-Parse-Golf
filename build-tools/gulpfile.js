@@ -1,8 +1,9 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
 
-gulp.task('default', function() {
+gulp.task('script', function() {
 
     var sources = [
         '../src/js/init.js',
@@ -23,3 +24,13 @@ gulp.task('default', function() {
         .pipe(gulp.dest('../src/js/'));
 
 });
+
+gulp.task('sass', function () {
+
+    return gulp.src('../src/sass/**/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('../src/css'));
+
+});
+
+gulp.task('default', ['script', 'sass'])

@@ -7,18 +7,23 @@
     app.views = app.views || {};
 
     // view 
-    app.views.round = function(round){
+    app.views.round = function(controller, eventHandlers){
 
+        var round = controller.round;
+        var eventHandlers = controller.eventHandlers || {};
 
         var getTableHeadings = function(){
             var retval = [
-                m('th', '#'),
+                m('th', 'Hole'),
                 m('th', 'Par'),
                 m('th', 'SI')
             ];
             retval.push(round.players.map(function(player){
-                return m('th', player.name);
+                return m('th', app.views.player(player, function(handicap){
+                    if (typeof(eventHandlers.updateHandicap) === 'function') eventHandlers.updateHandicap(player, handicap); 
+                }));
             }));
+            retval.push(m('th', 'Team Score'))
             return retval;
         }
 
@@ -31,27 +36,34 @@
             var holeScores = round.holeScores.filter(function(hs){
                 return hs.hole.number == hole.number;
             });
+            var teamHoleScore = 0;
             holeScores.forEach(function(hs){
-                retval.push(m('td', hs.grossScore + ' (' + hs.netScore + ') [' + hs.points + ']'));
+                var labelClass =
+                    hs.points === 0 ?
+                        'danger' :
+                        hs.points === 1 ?
+                            'warning' :
+                            'success'
+                retval.push(m('td.score-cell', [
+                    m('input.v-small-input.score-input[type="number"][value="' + hs.grossScore + '"]'),
+                    m('span.label.label-default', hs.netScore()),
+                    m('span.label.label-' + labelClass, hs.points())
+                ]));
+                teamHoleScore += hs.points();
             });
+            if (holeScores.length > 0) retval.push(m('td', m('span.team-score', teamHoleScore)));
             return retval;
         }
 
-        return m('div', [
+        return m('div.container', [
             m('section', [
-                m('h3', 'Details'),
                 m('div', [
                     m('h4', round.course.name),
                     m('h4', round.date.toString())
                 ])
             ]),
             m('section', [
-                m('h3', 'Players'),
-                app.views.playerList(round.players)
-            ]),,
-            m('section', [
-                m('h3', 'Scores'),
-                m('table', 
+                m('table.table.table-bordered', 
                     m('thead', m('tr', getTableHeadings())),
                     m('tbody', round.course.holes.map(function(hole){
                         return m('tr', getTableCells(hole));

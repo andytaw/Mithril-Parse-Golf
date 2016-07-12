@@ -6,10 +6,16 @@
     app.views = app.views || {};
 
     // view 
-    app.views.player = function(player) {
+    app.views.player = function(player, onUpdateHandicap) {
         return m('div', [
             m('span', player.name),
-            m('span', ' (' + player.handicap + ')'),
+            m(
+                'input.v-small-input[type="number"]',
+                {
+                    value: player.handicap,
+                    onchange: m.withAttr("value", onUpdateHandicap)
+                }
+            ),
         ]);
     }
     
