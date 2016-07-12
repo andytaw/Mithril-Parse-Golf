@@ -1,0 +1,2 @@
+// application namespace
+var __ = {};

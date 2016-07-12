@@ -1,0 +1,19 @@
+{
+  "name": "web-app",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Andrew Taw"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "bin",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
