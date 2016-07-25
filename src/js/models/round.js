@@ -6,11 +6,11 @@
     app.models = app.models || {};
 
     // model
-    app.models.round = function(course, date, players, holeScores){
+    app.models.round = function(competition, date, team, holeScores){
 
-        this.course = course;
+        this.competition = competition;
         this.date = date;
-        this.players = players;
+        this.team = team;
         this.holeScores = holeScores;
         
     }

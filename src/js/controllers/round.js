@@ -1,5 +1,4 @@
 /// <reference path="../init.js" />
-/// <reference path="../services/dataStash.js" />
 
 (function(app){
 
@@ -9,18 +8,37 @@
     // controllers
     app.controllers.round = function(){
 
-        return {
+        m.startComputation();
 
-            round: app.services.dataStash.get('round'),
+        var deferred = m.deferred();
 
-            eventHandlers: {
+        app.serviceContainer.dataProvider.getRound(function(round){
 
-                updateHandicap: function(player, handicap){
-                    player.updateHandicap(handicap);
+            var retval = {
+
+                round: round,
+
+                eventHandlers: {
+
+                    updateHandicap: function(player, handicap){
+                        player.updateHandicap(handicap);
+                    },
+
+                    updateHoleScore: function(holeScore, score){
+                        holeScore.grossScore = score;
+                    }
+
                 }
+            };
 
-            }
-        };
+            m.endComputation();
+
+            deferred.resolve(retval);
+
+        });
+
+        return deferred.promise;
+
     }
     
 })(__ || {});

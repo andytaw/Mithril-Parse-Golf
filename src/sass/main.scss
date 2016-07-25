@@ -1,29 +1,13 @@
-body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+// theme
+// CHANGE THEME NAME HERE!
+@import "themes/green";
 
-span{
-    margin-right:5px;
-}
 
-input[type="number"]{
-    padding:2px
-}
 
-.v-small-input{
-    width:50px;
-}
+@import "config";
 
-.score-input{
-    margin-right:5px;
-    margin-bottom:5px;
-}
 
-.score-cell > span{
-    margin-right:5px;
-    font-size:inherit;
-}
 
-.team-score{
-    font-weight:bold;
-}
+
+// yet to be refactored
+@import "dump";

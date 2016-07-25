@@ -11,6 +11,11 @@
 
         var round = controller.round;
         var eventHandlers = controller.eventHandlers || {};
+        
+        // this is the list used to sort the column headings and table body columns
+        var playerNames = round.team.players.map(function(player){ 
+            return player.name;
+        });
 
         var getTableHeadings = function(){
             var retval = [
@@ -18,7 +23,7 @@
                 m('th', 'Par'),
                 m('th', 'SI')
             ];
-            retval.push(round.players.map(function(player){
+            retval.push(round.team.players.map(function(player){
                 return m('th', app.views.player(player, function(handicap){
                     if (typeof(eventHandlers.updateHandicap) === 'function') eventHandlers.updateHandicap(player, handicap); 
                 }));
@@ -37,21 +42,55 @@
                 return hs.hole.number == hole.number;
             });
             var teamHoleScore = 0;
-            holeScores.forEach(function(hs){
-                var labelClass =
-                    hs.points === 0 ?
-                        'danger' :
-                        hs.points === 1 ?
-                            'warning' :
-                            'success'
-                retval.push(m('td.score-cell', [
-                    m('input.v-small-input.score-input[type="number"][value="' + hs.grossScore + '"]'),
-                    m('span.label.label-default', hs.netScore()),
-                    m('span.label.label-' + labelClass, hs.points())
-                ]));
-                teamHoleScore += hs.points();
+            round.team.players.forEach(function(player){
+
+                var holeScoresForPlayer = holeScores.filter(function(hs){
+                    return hs.player.name === player.name;
+                });
+                if (holeScoresForPlayer.length === 0){
+
+                    var updateHoleScore = function(score){
+                        var hs = new app.models.holeScore(hole, player, score);
+                        round.holeScores.push(hs);
+                    }
+
+                    retval.push(m('td.score-cell', [
+                        m('input.v-small-input.score-input[type="number"]',
+                        {
+                            onchange: m.withAttr("value", updateHoleScore)
+                        })
+                    ]));
+
+                }
+                else{
+
+                    var hs = holeScoresForPlayer[0];
+
+                    var updateHoleScore = function(score){
+                        hs.grossScore = score;
+                    }
+
+                    var points = hs.points();
+
+                    var labelClass =
+                        points === 0 ?
+                            'danger' :
+                            points === 1 ?
+                                'warning' :
+                                'success';
+                    retval.push(m('td.score-cell', [
+                        m('input.v-small-input.score-input[type="number"]',
+                        {
+                            value: hs.grossScore,
+                            onchange: m.withAttr("value", updateHoleScore)
+                        }),
+                        m('span.label.label-default', hs.netScore()),
+                        m('span.label.label-' + labelClass, points)
+                    ]));
+                    teamHoleScore += points;
+                }
             });
-            if (holeScores.length > 0) retval.push(m('td', m('span.team-score', teamHoleScore)));
+            retval.push(m('td', m('span.team-score', teamHoleScore)));
             return retval;
         }
 
@@ -71,6 +110,7 @@
                 )
             ]),
         ]);
+        
     }
     
 })(__ || {});
