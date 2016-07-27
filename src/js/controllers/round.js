@@ -7,6 +7,31 @@
 
     // controllers
     app.controllers.round = function(){
+        
+        
+        var round = app.serviceContainer.dataProvider.getRound();
+        
+        return {
+
+            round: round,
+
+            eventHandlers: {
+
+                updateHandicap: function(player, handicap){
+                    player.updateHandicap(handicap);
+                },
+
+                updateHoleScore: function(holeScore, score){
+                    holeScore.grossScore = score;
+                }
+
+            }
+        };
+        
+        
+        
+        
+        
 
         m.startComputation();
 

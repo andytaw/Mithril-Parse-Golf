@@ -40,7 +40,7 @@
         ]
 
         var allRounds = [
-            new app.models.round(allCourses[0], new Date(2016, 8, 10), allPlayers, allHoleScores)
+            new app.models.round({course: allCourses[0]}, new Date(2016, 8, 10), {players: allPlayers}, allHoleScores)
         ];
 
         this.getRound = function(){

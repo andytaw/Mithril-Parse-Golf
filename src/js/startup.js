@@ -9,8 +9,8 @@
     // configure services to us, e.g. switch between real and dummy data providers
     var registerServices = function(){
         var s = app.serviceContainer = {};
-        //s.dataProvider = new app.services.dummyDataProvider();
-        s.dataProvider = new app.services.parseDataProvider();
+        s.dataProvider = new app.services.dummyDataProvider();
+        //s.dataProvider = new app.services.parseDataProvider();
     }
 
     var mountApp = function(){

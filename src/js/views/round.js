@@ -7,10 +7,11 @@
     app.views = app.views || {};
 
     // view 
-    app.views.round = function(controller, eventHandlers){
+    app.views.round = function(controller){
 
-        var round = controller.round;
         var eventHandlers = controller.eventHandlers || {};
+        var round = controller.round;
+        var course = round.competition.course;
         
         // this is the list used to sort the column headings and table body columns
         var playerNames = round.team.players.map(function(player){ 
@@ -97,14 +98,14 @@
         return m('div.container', [
             m('section', [
                 m('div', [
-                    m('h4', round.course.name),
+                    m('h4', course.name),
                     m('h4', round.date.toString())
                 ])
             ]),
             m('section', [
                 m('table.table.table-bordered', 
                     m('thead', m('tr', getTableHeadings())),
-                    m('tbody', round.course.holes.map(function(hole){
+                    m('tbody', course.holes.map(function(hole){
                         return m('tr', getTableCells(hole));
                     }))
                 )
