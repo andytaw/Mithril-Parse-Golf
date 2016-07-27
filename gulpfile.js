@@ -1,3 +1,4 @@
+var pkg = require('./package.json');
 var program = require('commander');
 var fs = require('fs-extra');
 var gulp = require('gulp');
@@ -15,11 +16,30 @@ var config = {
 	build: program.build || process.env.GULP_BUILD || "dev"
 };
 
+
 console.log(config);
+
+////////////////////////////////////
+var build = {version: pkg.version + '-0'}; // {version: '0.0.0-0'};
+var buildJsonFile = './build.json';
+var ensureBuildFile = function()
+{
+    try
+    {
+        return fs.statSync(buildJsonFile).isFile();
+    }
+    catch (err)
+    {
+		fs.writeFileSync(buildJsonFile, JSON.stringify(build));
+		console.log("Created new build.json file.");
+    }
+};
+//////////////////////////////////////
 
 var outputDir = './build/' + config.build;
 
 gulp.task('bump', function(){
+    ensureBuildFile();
 	return gulp.src('./build.json')
 		.pipe(bump({type: 'prerelease'}))
 		.pipe(gulp.dest('./'));
