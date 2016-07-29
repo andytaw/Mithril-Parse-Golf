@@ -14,7 +14,11 @@
     }
 
     var mountApp = function(){
+        m.startComputation();
         m.mount(document.getElementById('appContainer'), app.components.round);
+        setTimeout(function() {
+            m.endComputation();
+        }, 2000);
     }
 
     var startup = function(){
