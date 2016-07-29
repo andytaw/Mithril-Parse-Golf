@@ -9,9 +9,16 @@
     // view 
     app.views.round = function(controller){
 
-        var eventHandlers = controller.eventHandlers || {};
+        if (controller.round ===  null) {
+            controller.refreshData();
+            return null;
+        }
+
         var round = controller.round;
-        var course = round.competition.course;
+        var competition = round.competition;
+        var course = competition.course;
+        var dateTime = competition.dateTime || round.dateTime  || round.date || '';
+        var holes = course.holes || [];
         
         // this is the list used to sort the column headings and table body columns
         var playerNames = round.team.players.map(function(player){ 
@@ -26,7 +33,7 @@
             ];
             retval.push(round.team.players.map(function(player){
                 return m('th', app.views.player(player, function(handicap){
-                    if (typeof(eventHandlers.updateHandicap) === 'function') eventHandlers.updateHandicap(player, handicap); 
+                    if (typeof(controller.updateHandicap) === 'function') controller.updateHandicap(player, handicap); 
                 }));
             }));
             retval.push(m('th', 'Team Score'))
@@ -40,19 +47,20 @@
                 m('td', hole.si)
             ];
             var holeScores = round.holeScores.filter(function(hs){
-                return hs.hole.number == hole.number;
+                return hs.hole.holeId === hole.holeId;
             });
             var teamHoleScore = 0;
             round.team.players.forEach(function(player){
 
                 var holeScoresForPlayer = holeScores.filter(function(hs){
-                    return hs.player.name === player.name;
+                    return hs.player.playerId === player.playerId;
                 });
                 if (holeScoresForPlayer.length === 0){
 
                     var updateHoleScore = function(score){
                         var hs = new app.models.holeScore(hole, player, score);
-                        round.holeScores.push(hs);
+                        hs.competitionId = competition.competitionId;
+                        controller.addHoleScore(hs, score);
                     }
 
                     retval.push(m('td.score-cell', [
@@ -68,7 +76,7 @@
                     var hs = holeScoresForPlayer[0];
 
                     var updateHoleScore = function(score){
-                        hs.grossScore = score;
+                        controller.updateHoleScore(hs, score);
                     }
 
                     var points = hs.points();
@@ -80,7 +88,7 @@
                                 'warning' :
                                 'success';
                     retval.push(m('td.score-cell', [
-                        m('input.v-small-input.score-input[type="number"]',
+                        m('input.v-small-input.score-input[type="number"][min="1"][max="12"]',
                         {
                             value: hs.grossScore,
                             onchange: m.withAttr("value", updateHoleScore)
@@ -98,14 +106,15 @@
         return m('div.container', [
             m('section', [
                 m('div', [
-                    m('h4', course.name),
-                    m('h4', round.date.toString())
+                    m('h4.competition-name', competition.name ),
+                    m('h4.course-name', course.name ),
+                    m('h4.round-date', dateTime.toLocaleDateString("en-GB"))
                 ])
             ]),
             m('section', [
                 m('table.table.table-bordered', 
                     m('thead', m('tr', getTableHeadings())),
-                    m('tbody', course.holes.map(function(hole){
+                    m('tbody', holes.map(function(hole){
                         return m('tr', getTableCells(hole));
                     }))
                 )

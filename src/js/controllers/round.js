@@ -6,63 +6,40 @@
     app.controllers = app.controllers || {};
 
     // controllers
-    app.controllers.round = function(){
-        
-        
-        var round = app.serviceContainer.dataProvider.getRound();
-        
-        return {
+    app.controllers.round = function(){        
+       
+        var self = this;
 
-            round: round,
+        self.round = app.model.round || null;
 
-            eventHandlers: {
+        self.updateHandicap = function(player, handicap){
+            
+            player.updateHandicap(handicap);
 
-                updateHandicap: function(player, handicap){
-                    player.updateHandicap(handicap);
-                },
+            app.serviceContainer.dataProvider.updatePlayerHandicap(player.playerId, handicap);
 
-                updateHoleScore: function(holeScore, score){
-                    holeScore.grossScore = score;
-                }
+        }
 
-            }
-        };
-        
-        
-        
-        
-        
+        self.updateHoleScore = function(holeScore, score){
 
-        m.startComputation();
+            holeScore.updateScore(score);
 
-        var deferred = m.deferred();
+            app.serviceContainer.dataProvider.updateHoleScore(holeScore.holeScoreId, score);
 
-        app.serviceContainer.dataProvider.getRound(function(round){
+        }
 
-            var retval = {
+        self.addHoleScore = function(holeScore, score){
 
-                round: round,
+            self.round.holeScores.push(holeScore);
 
-                eventHandlers: {
+            app.serviceContainer.dataProvider.addHoleScore(
+                holeScore.competitionId,
+                holeScore.hole.holeId,
+                holeScore.player.playerId,
+                score
+            );
 
-                    updateHandicap: function(player, handicap){
-                        player.updateHandicap(handicap);
-                    },
-
-                    updateHoleScore: function(holeScore, score){
-                        holeScore.grossScore = score;
-                    }
-
-                }
-            };
-
-            m.endComputation();
-
-            deferred.resolve(retval);
-
-        });
-
-        return deferred.promise;
+        }
 
     }
     
