@@ -21,6 +21,10 @@
 
         var parseObjects = {};
 
+        var errorHandler = function(error) {
+            console.log(error);
+        }
+
         var initObjects = function(scope){
 
             scope.Round = Parse.Object.extend('round', {
@@ -121,9 +125,7 @@
                         callback(competition.toModelObject());
                     }
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
 
         }
@@ -138,9 +140,7 @@
                         callback(course.toModelObject());
                     }
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
 
         }
@@ -160,9 +160,7 @@
                         }));
                     }
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
 
         }
@@ -182,9 +180,7 @@
                         }));
                     }
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
 
         }
@@ -206,9 +202,7 @@
                         }));
                     }
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
 
             });
 
@@ -257,9 +251,7 @@
                     self.getPlayersByTeamId(modelObj.team.teamId, onPlayersSuccess);
                     self.getCompetition(modelObj.competition.competitionId, onCompetitionSuccess);
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             }); 
 
         };
@@ -272,9 +264,7 @@
                     player.set('handicap', handicap);
                     player.save();
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
         };
 
@@ -286,13 +276,11 @@
                     holeScore.set('score', score);
                     holeScore.save();
                 },
-                error: function(error) {
-                    console.log(error);
-                }
+                error: errorHandler
             });
         };
 
-        self.addHoleScore = function(competitionId, holeId, playerId, score){
+        self.addHoleScore = function(competitionId, holeId, playerId, score, callback){
             score = parseInt(score);
             var holeScore = new parseObjects.HoleScore;
             var competition = new parseObjects.Competition;
@@ -305,7 +293,7 @@
             holeScore.set('hole', hole);
             holeScore.set('player', player);
             holeScore.set('score', score);
-            holeScore.save();
+            holeScore.save(null, callback, errorHandler);
         };
 
     }

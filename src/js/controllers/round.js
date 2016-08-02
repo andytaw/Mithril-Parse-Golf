@@ -32,11 +32,16 @@
 
             self.round.holeScores.push(holeScore);
 
+            var onSave = function(holeScore){
+                console.log(holeScore);
+            }
+
             app.serviceContainer.dataProvider.addHoleScore(
                 holeScore.competitionId,
                 holeScore.hole.holeId,
                 holeScore.player.playerId,
-                score
+                score,
+                onSave
             );
 
         }
