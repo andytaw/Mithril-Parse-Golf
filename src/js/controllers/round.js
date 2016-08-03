@@ -22,26 +22,34 @@
 
         self.updateHoleScore = function(holeScore, score){
 
-            holeScore.updateScore(score);
+            m.startComputation();
 
-            app.serviceContainer.dataProvider.updateHoleScore(holeScore.holeScoreId, score);
+            app.serviceContainer.dataProvider.updateHoleScore(
+                self.round,
+                holeScore.holeScoreId,
+                score,
+                function(){
+                    holeScore.updateScore(score);
+                    m.endComputation();
+                });
 
         }
 
         self.addHoleScore = function(holeScore, score){
 
-            self.round.holeScores.push(holeScore);
-
-            var onSave = function(holeScore){
-                console.log(holeScore);
-            }
+            m.startComputation();
 
             app.serviceContainer.dataProvider.addHoleScore(
+                self.round,
                 holeScore.competitionId,
                 holeScore.hole.holeId,
                 holeScore.player.playerId,
                 score,
-                onSave
+                function(holeScore){
+                    // after save push the holeScore into the Model
+                    self.round.holeScores.push(holeScore);
+                    m.endComputation();
+                }
             );
 
         }

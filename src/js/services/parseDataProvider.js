@@ -268,19 +268,29 @@
             });
         };
 
-        self.updateHoleScore = function(holeScoreId, score){
+        self.updateHoleScore = function(round, holeScoreId, score, callback){
             score = parseInt(score);
             var query = new Parse.Query(parseObjects.HoleScore);
             query.get(holeScoreId, {
                 success: function(holeScore) {
                     holeScore.set('score', score);
-                    holeScore.save();
+                    holeScore.save(null, {
+                        success: function(savedHoleScore){
+                            if (typeof(callback) === 'function') {
+                                var players = round.team.players;
+                                var holes = round.competition.course.holes;
+                                var hs = savedHoleScore.toModelObject(players, holes);
+                                callback(hs);
+                            }
+                        },
+                        error: errorHandler
+                    });
                 },
                 error: errorHandler
             });
         };
 
-        self.addHoleScore = function(competitionId, holeId, playerId, score, callback){
+        self.addHoleScore = function(round, competitionId, holeId, playerId, score, callback){
             score = parseInt(score);
             var holeScore = new parseObjects.HoleScore;
             var competition = new parseObjects.Competition;
@@ -293,7 +303,17 @@
             holeScore.set('hole', hole);
             holeScore.set('player', player);
             holeScore.set('score', score);
-            holeScore.save(null, callback, errorHandler);
+            holeScore.save(null, {
+                success: function(savedHoleScore){
+                    if (typeof(callback) === 'function') {
+                        var players = round.team.players;
+                        var holes = round.competition.course.holes;
+                        var hs = savedHoleScore.toModelObject(players, holes);
+                        callback(hs);
+                    }
+                },
+                error: errorHandler
+            });
         };
 
     }
