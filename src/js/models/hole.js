@@ -6,8 +6,9 @@
     app.models = app.models || {};
 
     // model
-    app.models.hole = function(number, par, si){
+    app.models.hole = function(holeId, number, par, si){
 
+        this.holeId = holeId;
         this.number = number;
         this.par = par;
         this.si = si;

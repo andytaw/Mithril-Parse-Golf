@@ -5,27 +5,6 @@
 
 (function(app){
 
-    // use app.services as a IOC container
-    // configure services to us, e.g. switch between real and dummy data providers
-    var registerServices = function(){
-        var s = app.serviceContainer = {};
-        s.dataProvider = new app.services.dummyDataProvider();
-        //s.dataProvider = new app.services.parseDataProvider();
-    }
-
-    var mountApp = function(){
-        m.startComputation();
-        m.mount(document.getElementById('appContainer'), app.components.round);
-        setTimeout(function() {
-            m.endComputation();
-        }, 2000);
-    }
-
-    var startup = function(){
-        registerServices();
-        mountApp();
-    }
-
-    $(startup);
+    $(app.framework.startApp);
 
 })(__ || {});

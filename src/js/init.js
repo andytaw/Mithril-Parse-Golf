@@ -1,30 +1,46 @@
 // application namespace
 var __ = {};
 
+// sub namespaces
+__.model = {};
+__.framework = {};
 
+// framework
+(function(fw, app){
 
+    fw.appContainer = document.getElementById('appContainer');
 
+    fw.startApp = function(){
+        
+        // use app.services as a IOC container
+        // configure services to us, e.g. switch between real and dummy data providers
+        var registerServices = function(){
+            var s = app.serviceContainer = {};
+            //s.dataProvider = new app.services.dummyDataProvider();
+            s.dataProvider = new app.services.parseDataProvider();
+        }
 
+        var mountApp = function(){
+            m.mount(appContainer, app.components.round);
+        }
 
+        registerServices();
+        fw.refresh();
 
+    }
 
-// function EventHandler(getF, updateF){
-//     m.startComputation()
-//     getF(function(data){
-//         updateF(data);
-//         m.endComputation()
-//     });
-// }
+    fw.refresh = function(){
 
+        m.startComputation();
 
-// __.eventHandlers = {};
+        var renderRound = function(data){
+            app.model.round = data;
+            m.mount(fw.appContainer, app.components.round);
+            m.endComputation();
+        }
 
-// __.eventHandlers.pageLoad = new EventHandler(
-    
-//     __.serviceContainer.dataProvider.getRound,
-//     function(data){
-//         __.model.round = data;
-//     }
-    
-// );
+        app.serviceContainer.dataProvider.getRound(renderRound);
 
+    }
+
+})(__.framework, __);

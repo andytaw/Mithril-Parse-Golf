@@ -14,17 +14,21 @@
     app.services.dummyDataProvider = function(){
 
         var allPlayers = [
-            new app.models.player('Andy', 22),
-            new app.models.player('Kevin', 28),
-            new app.models.player('Rob', 20)
-        ]
+            new app.models.player('1', 'Andy', 22),
+            new app.models.player('2', 'Kevin', 28),
+            new app.models.player('3', 'Rob', 20)
+        ];
 
         var allHoles = [
-            new app.models.hole(1, 4, 4),
-            new app.models.hole(2, 3, 1),
-            new app.models.hole(3, 5, 2),
-            new app.models.hole(4, 4, 3),
-        ]
+            new app.models.hole('1', 1, 4, 4),
+            new app.models.hole('2', 2, 3, 1),
+            new app.models.hole('3', 3, 5, 2),
+            new app.models.hole('4', 4, 4, 3),
+            new app.models.hole('5', 5, 4, 8),
+            new app.models.hole('6', 6, 3, 7),
+            new app.models.hole('7', 7, 5, 6),
+            new app.models.hole('8', 8, 4, 5),
+        ];
 
         var allCourses = [
             new app.models.course('Southwick', allHoles)
@@ -43,10 +47,9 @@
             new app.models.round({course: allCourses[0]}, new Date(2016, 8, 10), {players: allPlayers}, allHoleScores)
         ];
 
-        this.getRound = function(){
-
-            return allRounds[0];
-
+        this.getRound = function(callback){
+            var data = allRounds[0];
+            if (typeof(callback) === 'function') callback(data);
         }
 
     }

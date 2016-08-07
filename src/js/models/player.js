@@ -6,10 +6,11 @@
     app.models = app.models || {};
 
     // model
-    app.models.player = function(name, handicap){
+    app.models.player = function(playerId, name, handicap){
 
         var self = this;
 
+        self.playerId = playerId;
         self.name = name;
         self.handicap = handicap;
 

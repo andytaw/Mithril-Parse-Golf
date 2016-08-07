@@ -53,6 +53,7 @@ gulp.task('script', function() {
 
     var sources = [
         './src/js/init.js',
+        './src/js/model.js',
         './src/js/models/*.js',
         './src/js/services/*.js',
         './src/js/controllers/*.js',

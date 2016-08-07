@@ -9,7 +9,7 @@
     app.models.course = function(name, holes){
 
         this.name = name;
-        this.holes = holes;
+        this.holes = holes || [];
         
     }
     
