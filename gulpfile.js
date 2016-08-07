@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var bump = require('gulp-bump');
+var serve = require('gulp-serve');
 
 program
   .version('0.0.1')
@@ -104,3 +105,5 @@ gulp.task('copy', function () {
 });
 
 gulp.task('default', ['bump', 'script', 'sass', 'copy', 'configcss']);
+
+gulp.task('serve', serve('./build/dev'));
