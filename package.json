@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
-    "publish": "gulp publish"
+    "publish": "gulp publish",
+    "postinstall": "gulp default"
   },
   "author": "Andrew Taw",
   "license": "ISC",
