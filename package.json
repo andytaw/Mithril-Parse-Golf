@@ -11,7 +11,7 @@
   },
   "author": "Andrew Taw",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "commander": "^2.9.0",
     "fs-extra": "^0.30.0",
     "gulp": "^3.9.1",
