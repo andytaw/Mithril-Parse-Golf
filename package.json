@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
     "publish": "gulp publish",
-    "postinstall": "bower install && gulp"
+    "postinstall": "bower install && gulp",
+    "start": "gulp serve"
   },
   "author": "Andrew Taw",
   "license": "ISC",
