@@ -105,9 +105,3 @@ gulp.task('copy', function () {
 });
 
 gulp.task('default', ['bump', 'script', 'sass', 'copy', 'configcss']);
-
-gulp.task('serve', serve({
-        root: ['./build/dev'],
-        port: process.env.PORT || 8080
-    })
-);
