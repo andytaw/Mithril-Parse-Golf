@@ -1,5 +1,6 @@
 body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #4e4b4b;
 }
 
 span{
@@ -26,4 +27,19 @@ input[type="number"]{
 
 .team-score{
     font-weight:bold;
+}
+
+table.table-bordered{
+    background-color: #fff;
+    box-shadow: 0 0 200px #fff;
+}
+
+section:nth-child(1){
+    color:#fff;
+}
+
+table.table > tbody > tr > td,
+table.table > thead > tr > th {
+    text-align: center;
+    vertical-align: middle;
 }
