@@ -46,7 +46,7 @@ table.table > thead > tr > th {
 
 div.loader{
     background:url('../images/spinning_golf_ball.gif');
-    height:1000px;
+    min-height:500px;
     width:100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
