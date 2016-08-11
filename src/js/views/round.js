@@ -11,7 +11,6 @@
 
         if (controller.round ===  null) {
             controller.refreshData();
-            return null;
         }
 
         var round = controller.round;

@@ -65,10 +65,10 @@ gulp.task('script', function() {
 
     return gulp.src(sources)
         .pipe(concat('app.js'))
-        .pipe(uglify({
-            mangle: false,
-            compress: false
-        }))
+        // .pipe(uglify({
+        //     mangle: false,
+        //     compress: false
+        // }))
         .pipe(gulp.dest(outputDir + '/js'));
 
 });
@@ -101,6 +101,7 @@ gulp.task('copy', function () {
 	fs.copySync('./bower_components/jquery/dist/jquery.min.js', outputDir + '/js/jquery.js');
 	fs.copySync('./bower_components/parse-sdk/lib/parse.min.js', outputDir + '/js/parse.js');
 	fs.copySync('./bower_components/mithril/mithril.min.js', outputDir + '/js/mithril.js');
+	fs.copySync('./src/images', outputDir + '/images');
 	
 });
 

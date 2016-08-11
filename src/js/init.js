@@ -30,6 +30,8 @@ __.framework = {};
     }
 
     fw.refresh = function(){
+        
+        m.render(appContainer, m('div.loader'));
 
         m.startComputation();
 

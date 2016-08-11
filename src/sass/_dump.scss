@@ -43,3 +43,12 @@ table.table > thead > tr > th {
     text-align: center;
     vertical-align: middle;
 }
+
+div.loader{
+    background:url('../images/spinning_golf_ball.gif');
+    height:1000px;
+    width:100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
