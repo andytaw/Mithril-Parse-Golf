@@ -36,6 +36,7 @@ __.framework = {};
         m.startComputation();
 
         var renderRound = function(data){
+            $('body').addClass('app-ready');
             app.model.round = data;
             m.mount(fw.appContainer, app.components.round);
             m.endComputation();
