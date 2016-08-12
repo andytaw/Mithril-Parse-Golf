@@ -53,6 +53,21 @@
             );
 
         }
+        
+        self.clearScores = function(){
+
+            m.startComputation();
+
+            app.serviceContainer.dataProvider.clearScoresForCompetition(
+                self.round.competition.competitionId,
+                function(holeScore){
+                    alert('Scores deleted!');
+                    app.model.round.holeScores = [];
+                    m.endComputation();
+                }
+            );
+            
+        }
 
     }
     

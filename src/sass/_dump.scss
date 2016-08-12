@@ -2,6 +2,15 @@ body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+#appContainer{
+    padding: 20px;
+    padding-top: 10px;
+}
+
+button{
+    padding: 5px 10px;
+}
+
 body.app-ready{
     background-color: #4e4b4b;
 }

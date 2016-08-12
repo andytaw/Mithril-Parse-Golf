@@ -37,7 +37,27 @@
             }));
             retval.push(m('th', 'Team Score'))
             return retval;
-        }
+        };
+
+        var getPlayerScores = function(){
+            var teamTotalScore = 0;
+            var retval = [
+                m('th[colspan="3"]', 'Total Score')
+            ];
+            retval.push(round.team.players.map(function(player){
+                var holeScoresForPlayer = round.holeScores.filter(function(hs){
+                    return hs.player.playerId === player.playerId;
+                });
+                var totalPlayerScore = holeScoresForPlayer.reduce(function(total, holeScore){
+                    total += holeScore.points();
+                    return total;
+                }, 0);
+                teamTotalScore += totalPlayerScore;
+                return m('th', totalPlayerScore);
+            }));
+            retval.push(m('th', teamTotalScore));
+            return retval;
+        };
 
         var getTableCells = function(hole){
             var retval = [
@@ -112,12 +132,19 @@
             ]),
             m('section', [
                 m('table.table.table-bordered', 
-                    m('thead', m('tr', getTableHeadings())),
+                    m('thead', [m('tr', getTableHeadings()), m('tr', getPlayerScores())]),
                     m('tbody', holes.map(function(hole){
                         return m('tr', getTableCells(hole));
                     }))
                 )
             ]),
+            m('section',[
+                m('button', 
+                {
+                    onclick: controller.clearScores
+                },
+                'Clear Scores')
+            ])
         ]);
         
     }

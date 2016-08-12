@@ -20,18 +20,23 @@ __.framework = {};
             s.dataProvider = new app.services.parseDataProvider();
         }
 
-        var mountApp = function(){
-            m.mount(appContainer, app.components.round);
-        }
-
         registerServices();
-        fw.refresh();
+    
+        m.route(fw.appContainer, "/", {
+            "/": {controller: fw.refresh},
+            "/round/:roundId": {controller: fw.refresh}
+        });
+        
+        //fw.refresh();
 
     }
 
-    fw.refresh = function(){
+    fw.refresh = function(roundId){
         
-        m.render(appContainer, m('div.loader'));
+        roundId = roundId || m.route.param().roundId || '6uGG6NYMwR';
+        
+        $('body').removeClass('app-ready');
+        m.render(fw.appContainer, m('div.loader'));
 
         m.startComputation();
 
@@ -42,7 +47,7 @@ __.framework = {};
             m.endComputation();
         }
 
-        app.serviceContainer.dataProvider.getRound(renderRound);
+        app.serviceContainer.dataProvider.getRound(roundId, renderRound);
 
     }
 

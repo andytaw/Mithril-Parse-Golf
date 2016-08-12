@@ -21,8 +21,9 @@
 
         var parseObjects = {};
 
-        var errorHandler = function(error) {
+        var errorHandler = function(data, error) {
             console.log(error);
+            alert('An error occurred!\n\n' + error.message + '\n\n');
         }
 
         var initObjects = function(scope){
@@ -208,11 +209,11 @@
 
         }
 
-        self.getRound = function(callback){
+        self.getRound = function(roundId, callback){
 
             var query = new Parse.Query(parseObjects.Round);
 
-            query.get('6uGG6NYMwR', {
+            query.get(roundId, {
                 success: function(round) {
                     var modelObj = round.toModelObject();
                     var playersLoaded = false;
@@ -315,6 +316,28 @@
                 error: errorHandler
             });
         };
+        
+        self.clearScoresForCompetition = function(competitionId, callback){
+            var query = new Parse.Query(parseObjects.HoleScore);
+            var competition = new (Parse.Object.extend('competition'));
+            competition.id = competitionId;
+            query.equalTo('competition', competition);
+            query.find({
+                success: function(holeScores) {
+                    Parse.Object.destroyAll(holeScores)
+                        .then(
+                            function(success) {
+                                if (typeof(callback) === 'function') callback();
+                            },
+                            function(error) {
+                              errorHandler(null, error);
+                            }
+                        );
+                },
+                error: errorHandler
+            });
+
+        }
 
     }
     

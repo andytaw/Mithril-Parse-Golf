@@ -47,7 +47,7 @@
             new app.models.round({course: allCourses[0]}, new Date(2016, 8, 10), {players: allPlayers}, allHoleScores)
         ];
 
-        this.getRound = function(callback){
+        this.getRound = function(roundId, callback){
             var data = allRounds[0];
             if (typeof(callback) === 'function') callback(data);
         }
